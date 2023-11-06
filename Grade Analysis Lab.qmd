@@ -30,3 +30,13 @@ exam_summary <-
 ```{r}
 knitr::kable(exam_summary, format = "markdown")
 ```
+
+## Question 3
+
+```{r}
+missing_grades <- sum(is.na(grades$Exam))
+```
+
+```{r}
+cat("There were", missing_grades,"students who did not take the final exam.")
+```
