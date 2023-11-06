@@ -14,3 +14,19 @@ warning: false
 here::i_am("r-101-grade-analysis.Rproj")
 here::i_am("grades.csv")
 ```
+
+## Question 2
+
+```{r}
+exam_summary <-
+  grades %>%
+  summarise("Mean grade" = mean(Exam, na.rm = TRUE),
+                      "Median grade" = median(Exam, na.rm = TRUE),
+                      "Lowest grade" = min(Exam, na.rm = TRUE),
+                      "Highest grade" = max(Exam, na.rm = TRUE))
+  
+```
+
+```{r}
+knitr::kable(exam_summary, format = "markdown")
+```
