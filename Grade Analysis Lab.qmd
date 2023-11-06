@@ -40,3 +40,13 @@ missing_grades <- sum(is.na(grades$Exam))
 ```{r}
 cat("There were", missing_grades,"students who did not take the final exam.")
 ```
+
+## Question 4
+
+```{r}
+grades %>%
+  ggplot(aes(x = Exam, na.rm = TRUE)) +
+  geom_histogram(binwidth = 0.5) +
+  labs(x = "Exam grades",
+       y = "Frequency") 
+```
