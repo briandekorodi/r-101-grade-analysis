@@ -80,14 +80,27 @@ knitr::kable(students_by_group)
 
 ## Question 7
 
+One way to plot conditional distributions might be to plot the density functions for each group. Since there is a relatively large number of groups, it doesn't make sense to plot all the density functions on the same graph, so instead we can use a facet wrap. This visualization provides a solid quick overview of the shape of the distribution for each group:
+
 ```{r}
-ggplot(grades, aes(x =`Exam`, fill = `Group`)) + 
+grades |>
+    mutate('Group' = gsub("grp_", "", grades$Group)) |>
+  ggplot(aes(x = `Exam`, color = "red")) + 
   geom_density(alpha = 0.5) +
-  labs(title = "Distribution of grades by group")
+  labs(title = "Distribution of grades by group") +
+  facet_wrap(~Group)
 ```
 
-A better solution is to use a boxplot:
+A better solution might be to use a box plot. It allows us to plot the distributions for each group side-by-side, which enables easier comparison:
 
 ```{r}
-
+grades |>
+    mutate('Group number' = gsub("grp_", "", grades$Group)) |>
+  ggplot(aes(x = `Group number`, y = `Exam`)) +
+  geom_boxplot() +
+  labs(title = "Distribution of grades by group",
+       x = "Group number",
+       y = "Grades")
 ```
+
+The choice of which representation to use might depend on if one wants to compare between groups, or if one wants to simply be able to look up a specific group and get an idea for the general shape of its distribution.
