@@ -69,9 +69,25 @@ knitr::kable(students_by_group)
 ## Question 6
 
 ```{r}
-  ggplot(students_by_group, aes(x = Group, y = Number_of_students)) +
+  students_by_group |>
+    mutate('Group number' = gsub("grp_", "", students_by_group$Group)) |>
+    ggplot(aes(x = `Group number`, y = `Number_of_students`)) +
     geom_bar(stat = "identity", fill = "red") +
     labs(title = "Number of students in each group",
          x = "Group number",
          y = "Number of students") 
+```
+
+## Question 7
+
+```{r}
+ggplot(grades, aes(x =`Exam`, fill = `Group`)) + 
+  geom_density(alpha = 0.5) +
+  labs(title = "Distribution of grades by group")
+```
+
+A better solution is to use a boxplot:
+
+```{r}
+
 ```
