@@ -80,7 +80,18 @@ knitr::kable(students_by_group)
 
 ## Question 7
 
-One way to plot conditional distributions might be to plot the density functions for each group. Since there is a relatively large number of groups, it doesn't make sense to plot all the density functions on the same graph, so instead we can use a facet wrap. This visualization provides a solid quick overview of the shape of the distribution for each group:
+One way to plot conditional distributions for a discrete variable like this one might be to use a bar graph. Since there is a relatively large number of groups, it doesn't make sense to plot all the distributions on the same graph, so instead we can use a facet wrap:
+
+```{r}
+grades |>
+    mutate('Group' = gsub("grp_", "", grades$Group)) |>
+  ggplot(aes(x = `Exam`, color = "red")) + 
+  geom_bar() +
+  labs(title = "Distribution of grades by group") +
+  facet_wrap(~Group)
+```
+
+However, we see that when there is a large number of groups, the individual graphs are quite small, making it difficult to interpret. We can improve the readability by using density functions instead of bar graphs. While this is technically incorrect because the variable at hand is not a continuous one, in practice it provides a solid, readable overview of the general shape of the distribution for each group:
 
 ```{r}
 grades |>
@@ -104,3 +115,5 @@ grades |>
 ```
 
 The choice of which representation to use might depend on if one wants to compare between groups, or if one wants to simply be able to look up a specific group and get an idea for the general shape of its distribution.
+
+## Question 8
