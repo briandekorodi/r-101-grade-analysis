@@ -20,7 +20,7 @@ grades <- read.csv("grades.csv")
 
 ```{r}
 exam_summary <-
-  grades %>%
+  grades |>
   summarise("Mean grade" = mean(Exam, na.rm = TRUE),
                       "Median grade" = median(Exam, na.rm = TRUE),
                       "Lowest grade" = min(Exam, na.rm = TRUE),
@@ -47,17 +47,31 @@ cat("There were", missing_grades,"students who did not take the final exam.")
 ```{r}
 grades %>%
   ggplot(aes(x = Exam, na.rm = TRUE)) +
-  geom_histogram(binwidth = 0.5) +
+  geom_histogram(binwidth = 0.5, fill = "red") +
   labs(x = "Exam grades",
-       y = "Frequency") 
+       y = "Frequency") +
+  ggtitle("Distribution of exam grades")
 ```
 
 ## Question 5
 
 ```{r}
-grades |>
+students_by_group <- 
+  grades |>
   group_by(Group) |>
-  summarise(n())
-  
-  
+  summarise("Number_of_students" = n())
+```
+
+```{r}
+knitr::kable(students_by_group)
+```
+
+## Question 6
+
+```{r}
+  ggplot(students_by_group, aes(x = Group, y = Number_of_students)) +
+    geom_bar(stat = "identity", fill = "red") +
+    labs(title = "Number of students in each group",
+         x = "Group number",
+         y = "Number of students") 
 ```
