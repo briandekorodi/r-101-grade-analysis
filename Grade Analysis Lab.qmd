@@ -8,6 +8,12 @@ echo: FALSE
 warning: false
 ---
 
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+```
+
 ## Question 1
 
 ```{r}
@@ -45,8 +51,9 @@ cat("There were", missing_grades,"students who did not take the final exam.")
 ## Question 4
 
 ```{r}
-grades %>%
-  ggplot(aes(x = Exam, na.rm = TRUE)) +
+grades |>
+  filter(!is.na(Exam)) |>
+  ggplot(aes(x = Exam)) +
   geom_histogram(binwidth = 0.5, fill = "red") +
   labs(x = "Exam grades",
        y = "Frequency") +
@@ -80,22 +87,24 @@ knitr::kable(students_by_group)
 
 ## Question 7
 
-One way to plot conditional distributions for a discrete variable like this one might be to use a bar graph. Since there is a relatively large number of groups, it doesn't make sense to plot all the distributions on the same graph, so instead we can use a facet wrap:
+If we consider the 'Exam' variable to be discrete, due to it taking only .0 or .5 values, we might plot the conditional distributions with a bar graph. Since there is a relatively large number of groups, it doesn't make sense to plot all the distributions on the same graph, so instead we can use a facet wrap:
 
 ```{r}
 grades |>
-    mutate('Group' = gsub("grp_", "", grades$Group)) |>
+  mutate('Group' = gsub("grp_", "", grades$Group)) |>
+  filter(!is.na(Exam)) |>
   ggplot(aes(x = `Exam`, color = "red")) + 
   geom_bar() +
   labs(title = "Distribution of grades by group") +
   facet_wrap(~Group)
 ```
 
-However, we see that when there is a large number of groups, the individual graphs are quite small, making it difficult to interpret. We can improve the readability by using density functions instead of bar graphs. While this is technically incorrect because the variable at hand is not a continuous one, in practice it provides a solid, readable overview of the general shape of the distribution for each group:
+However, we see that when there is a large number of groups, the individual graphs are quite small, making it difficult to interpret. We can improve the readability by interpreting the variable as a continous one, thus using density functions instead of bar graphs. In practice it provides a solid, more readable overview of the general shape of the distribution for each group:
 
 ```{r}
 grades |>
-    mutate('Group' = gsub("grp_", "", grades$Group)) |>
+    mutate('Group' = gsub("grp_", "", grades$Group))|>
+  filter(!is.na(Exam)) |>
   ggplot(aes(x = `Exam`, color = "red")) + 
   geom_density(alpha = 0.5) +
   labs(title = "Distribution of grades by group") +
@@ -107,6 +116,7 @@ A better solution might be to use a box plot. It allows us to plot the distribut
 ```{r}
 grades |>
     mutate('Group number' = gsub("grp_", "", grades$Group)) |>
+  filter(!is.na(Exam)) |>
   ggplot(aes(x = `Group number`, y = `Exam`)) +
   geom_boxplot() +
   labs(title = "Distribution of grades by group",
@@ -117,3 +127,9 @@ grades |>
 The choice of which representation to use might depend on if one wants to compare between groups, or if one wants to simply be able to look up a specific group and get an idea for the general shape of its distribution.
 
 ## Question 8
+
+```{r}
+grades |>
+  filter(`Exam` = NA)
+  
+```
