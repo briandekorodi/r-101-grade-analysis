@@ -178,3 +178,20 @@ longonlinemissingbystudent <- longgrades |>
   summarise(Number_of_missing_online_grades = sum(is.na(value)))
 knitr::kable(longonlinemissingbystudent)
 ```
+
+## Question 15
+
+```{r}
+onlinemissing <- grades |> 
+  select(Id, Exam, starts_with("Online")) |>
+  rowwise() |>
+  mutate(onlinemissing = sum(across(starts_with("Online"), is.na))) |>
+  ungroup()
+onlinemissing |> 
+  filter(!is.na(Exam)) |>
+  ggplot(aes(x = Exam, y = onlinemissing)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Students' exam grades conditioned by how many online tests they missed",
+       x = "Exam grades",
+       y = "Number of missing online grades")
+```
