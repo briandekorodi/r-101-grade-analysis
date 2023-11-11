@@ -138,3 +138,22 @@ longgrades <- grades |>
   select(Id, Group, contains("MCQ"), Exam) |>
   pivot_longer(cols = c(Exam, contains("MCQ")), names_to = "name", values_to = "value")
 ```
+
+## Question 11
+
+```{r}
+missingbystudent <- longgrades |>
+  group_by(Id) |>
+  summarise(Number_of_missing_grades = sum(is.na(value)))
+knitr::kable(missingbystudent)
+```
+
+## Question 12
+
+```{r}
+ggplot(missingbystudent, aes(x = Id, y = Number_of_missing_grades)) +
+  geom_col() +
+  labs(title = "Number of missing grades per student",
+       x = "Student ID", 
+       y = "Number of missing grades")
+```
