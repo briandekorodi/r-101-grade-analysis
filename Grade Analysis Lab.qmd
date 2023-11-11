@@ -8,7 +8,8 @@ echo: FALSE
 warning: false
 ---
 
-```{r}
+```{r configuration}
+#| message: false
 library(ggplot2)
 library(dplyr)
 library(tidyr)
@@ -128,8 +129,12 @@ The choice of which representation to use might depend on if one wants to compar
 
 ## Question 8
 
+## Question 9
+
+## Question 10
+
 ```{r}
-grades |>
-  filter(`Exam` = NA)
-  
+longgrades <- grades |>
+  select(Id, Group, contains("MCQ"), Exam) |>
+  pivot_longer(cols = c(Exam, contains("MCQ")), names_to = "name", values_to = "value")
 ```
