@@ -195,3 +195,12 @@ onlinemissing |>
        x = "Exam grades",
        y = "Number of missing online grades")
 ```
+
+## Question 16
+
+```{r}
+missed1MCQbystudent <- grades |>
+  select(Id, starts_with("MCQ")) |>
+  group_by(Id) |>
+  summarise(missed = anyNA(across(starts_with("MCQ"))))
+```
