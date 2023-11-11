@@ -204,3 +204,11 @@ missed1MCQbystudent <- grades |>
   group_by(Id) |>
   summarise(missed = anyNA(across(starts_with("MCQ"))))
 ```
+
+## Question 17
+
+```{r}
+studentsmissed1MCQbygroup <- inner_join(missed1MCQbystudent, grades, by=join_by(Id)) |>
+  group_by(Group) |>
+  summarise(studentsmissed1MCQbygroup = sum(missed=="TRUE")/n())
+```
