@@ -13,6 +13,7 @@ warning: false
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(stringr)
 ```
 
 ## Question 1
@@ -166,4 +167,14 @@ longmissedbygroup <- longgrades |>
   filter(name=="Exam") |>
   summarise(Number_of_missed_exams = sum(is.na(value)))
 knitr::kable(longmissedbygroup)
+```
+
+## Question 14
+
+```{r}
+longonlinemissingbystudent <- longgrades |>
+  filter(str_starts(name, "Online")) |>  
+  group_by(Id) |>
+  summarise(Number_of_missing_online_grades = sum(is.na(value)))
+knitr::kable(longonlinemissingbystudent)
 ```
