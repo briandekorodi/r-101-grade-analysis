@@ -157,3 +157,13 @@ ggplot(missingbystudent, aes(x = Id, y = Number_of_missing_grades)) +
        x = "Student ID", 
        y = "Number of missing grades")
 ```
+
+## Question 13
+
+```{r}
+longmissedbygroup <- longgrades |>
+  group_by(Group) |>
+  filter(name=="Exam") |>
+  summarise(Number_of_missed_exams = sum(is.na(value)))
+knitr::kable(longmissedbygroup)
+```
