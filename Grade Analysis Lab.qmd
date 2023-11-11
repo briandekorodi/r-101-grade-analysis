@@ -212,3 +212,18 @@ studentsmissed1MCQbygroup <- inner_join(missed1MCQbystudent, grades, by=join_by(
   group_by(Group) |>
   summarise(studentsmissed1MCQbygroup = sum(missed=="TRUE")/n())
 ```
+
+## Question 18
+
+```{r}
+gradeperMCQmissedbygroup <- inner_join(studentsmissed1MCQbygroup, grades, by=join_by(Group)) |> 
+  group_by(Group) |>
+  mutate(average_grade = mean(Exam, na.rm=TRUE))
+
+ggplot(gradeperMCQmissedbygroup, aes(x = studentsmissed1MCQbygroup, y = average_grade)) +
+  geom_point() +
+  geom_smooth(method = 'lm') +
+  labs(title = "Average group grade as a function of proportion of students having missed an online exam",
+       x = "Proportion of students having missed an online test",
+       y = "Group's average exam grade")
+```
