@@ -130,7 +130,26 @@ The choice of which representation to use might depend on if one wants to compar
 
 ## Question 8
 
+```{r}
+missed_by_group <- grades |>
+  group_by(Group) |>
+  summarise(Students_missed_exam = sum(is.na(Exam)))
+knitr::kable(missed_by_group)
+```
+
 ## Question 9
+
+```{r}
+missed_by_group |>
+mutate('Group number' = gsub("grp_", "", missed_by_group$Group)) |>
+ggplot(aes(x = `Group number`, y = Students_missed_exam)) + 
+  geom_col(fill = "cyan") +
+  labs(title = "Number of students having missed the exam in each group",
+       x = "Group number",
+       y = "Students having missed exam") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 50, hjust = 1))
+```
 
 ## Question 10
 
