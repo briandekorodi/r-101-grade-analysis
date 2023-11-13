@@ -222,6 +222,7 @@ missed1MCQbystudent <- grades |>
   select(Id, starts_with("MCQ")) |>
   group_by(Id) |>
   summarise(missed = anyNA(across(starts_with("MCQ"))))
+knitr::kable(missed1MCQbystudent)
 ```
 
 ## Question 17
@@ -230,6 +231,7 @@ missed1MCQbystudent <- grades |>
 studentsmissed1MCQbygroup <- inner_join(missed1MCQbystudent, grades, by=join_by(Id)) |>
   group_by(Group) |>
   summarise(studentsmissed1MCQbygroup = sum(missed=="TRUE")/n())
+knitr::kable(studentsmissed1MCQbygroup)
 ```
 
 ## Question 18
